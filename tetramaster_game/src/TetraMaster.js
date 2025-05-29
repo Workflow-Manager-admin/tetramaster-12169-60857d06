@@ -507,7 +507,7 @@ function TetraMaster() {
           flexDirection: "row",
           alignItems: "flex-start",
           justifyContent: "center",
-          gap: "16px", // was 40px
+          gap: "34px", // increased spacing between grid and sidebar
           marginTop: "0"
         }}
       >
@@ -516,36 +516,36 @@ function TetraMaster() {
         {/* Sidebar */}
         <div
           style={{
-            marginLeft: "4px", // was 10px
-            minWidth: "110px", // was 170px
-            maxWidth: "128px",
-            padding: "6px 6px", // was 8px 12px
+            marginLeft: "8px",
+            minWidth: SIDEBAR_MIN_WIDTH,
+            maxWidth: SIDEBAR_MAX_WIDTH,
+            padding: "15px 14px 15px 14px", // more generous padding
             background: COLORS.secondary || "#393e46",
-            borderRadius: "8px", // tighter radius
-            boxShadow: "0 2px 12px #0006", // lighter shadow
+            borderRadius: "14px", // slightly larger
+            boxShadow: "0 2px 15px #0007",
             display: "flex",
             flexDirection: "column",
-            gap: "16px" // was 32px
+            gap: "24px"
           }}
         >
           <div>{renderNextBlock()}</div>
-          <div style={{ marginTop: "-10px" }}>
-            <div style={{ color: "#fff", marginBottom: "3px", fontSize: "0.9rem" }}>Score</div>
+          <div style={{ marginTop: "-4px" }}>
+            <div style={{ color: "#fff", marginBottom: "6px", fontSize: "1.12rem", fontWeight: 500 }}>Score</div>
             <div
               style={{
                 color: COLORS.accent,
-                fontSize: "1.1rem", // was 1.4rem
+                fontSize: "1.6rem",
                 letterSpacing: "2px",
                 fontWeight: "600",
-                minHeight: 24 // was 38
+                minHeight: 30
               }}
             >
               {score}
             </div>
           </div>
           <div>
-            <div style={{ color: "#fff", marginBottom: "-3px", fontSize: "0.85rem" }}>Level</div>
-            <div style={{ color: "#ffd166", fontWeight: 500, fontSize: "1.0rem" }}>{level}</div>
+            <div style={{ color: "#fff", marginBottom: "2px", fontSize: "1.03rem" }}>Level</div>
+            <div style={{ color: "#ffd166", fontWeight: 600, fontSize: "1.28rem" }}>{level}</div>
           </div>
           <div>
             <div>
@@ -555,8 +555,9 @@ function TetraMaster() {
                   style={{
                     background: COLORS.accent,
                     color: "#fff",
-                    marginTop: "6px", // was 12px
-                    fontSize: "0.97rem"
+                    marginTop: "12px",
+                    fontSize: "1.11rem",
+                    padding: "14px 0"
                   }}
                   onClick={resetGame}
                 >
@@ -569,8 +570,8 @@ function TetraMaster() {
                   style={{
                     background: COLORS.secondary,
                     color: "#eee",
-                    marginTop: "3px", // was 6px
-                    fontSize: "0.94rem"
+                    marginTop: "7px",
+                    fontSize: "1.06rem"
                   }}
                   onClick={() => setGameState(GAME_STATES.GAME_OVER)}
                 >
@@ -578,19 +579,20 @@ function TetraMaster() {
                 </button>
               )}
               {gameState === GAME_STATES.GAME_OVER && (
-                <div style={{ marginTop: "7px", textAlign: "center" }}>
+                <div style={{ marginTop: "15px", textAlign: "center" }}>
                   <div style={{
                     color: "#F35",
-                    fontWeight: 600,
-                    fontSize: "1.08rem",
-                    marginBottom: "2px"
+                    fontWeight: 700,
+                    fontSize: "1.25rem",
+                    marginBottom: "6px"
                   }}>Game Over</div>
                   <button
                     className="btn btn-large"
                     style={{
                       background: COLORS.accent,
                       color: "#fff",
-                      fontSize: "0.97rem"
+                      fontSize: "1.11rem",
+                      padding: "14px 0"
                     }}
                     onClick={resetGame}
                   >
@@ -601,13 +603,13 @@ function TetraMaster() {
             </div>
           </div>
           <div style={{
-            marginTop: "4px",
-            color: "#888",
-            fontSize: "0.77rem",
-            lineHeight: 1.22,
+            marginTop: "10px",
+            color: "#bbb",
+            fontSize: "0.95rem",
+            lineHeight: 1.34,
             textAlign: "left"
           }}>
-            <div style={{ fontWeight: 500, color: COLORS.accent, marginBottom: 1 }}>Controls:</div>
+            <div style={{ fontWeight: 500, color: COLORS.accent, marginBottom: 3 }}>Controls:</div>
             <div>←/→: Move</div>
             <div>↓ or ␣: Hard/Soft Drop</div>
             <div>↑: Rotate</div>
