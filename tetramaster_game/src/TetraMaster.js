@@ -254,6 +254,7 @@ function TetraMaster() {
 
   // Checks collision of shape at position (x, y)
   function collides(shape, pos, board) {
+    // COLLISION detection uses current ROWS (now 17, not 20): out of bounds if y >= ROWS
     for (let r = 0; r < shape.length; ++r) {
       for (let c = 0; c < shape[r].length; ++c) {
         if (shape[r][c]) {
@@ -262,7 +263,7 @@ function TetraMaster() {
           if (
             x < 0 ||
             x >= COLS ||
-            y >= ROWS ||
+            y >= ROWS || // ROWS is now 17!
             (y >= 0 && board[y][x])
           ) {
             return true;
@@ -311,6 +312,7 @@ function TetraMaster() {
       x: Math.floor(COLS / 2) - Math.ceil(nextShape.length / 2),
       y: 0
     };
+    // After reducing grid, watch for game over spawns:
     if (collides(nextShape, spawnPos, clearedBoard)) {
       setBoard(clearedBoard);
       setGameState(GAME_STATES.GAME_OVER);
@@ -349,10 +351,14 @@ function TetraMaster() {
         kept.push([...row]);
       }
     }
+    // Pad with rows to fit the new ROWS value (now 17)
     while (kept.length < ROWS) {
       kept.unshift(Array(COLS).fill(null));
     }
-    return { cleared: linesCleared, newBoard: kept };
+    // If any line was removed above the ROWS limit, slice the grid
+    // (This ensures board length never exceeds ROWS after padding)
+    const trimmed = kept.slice(-ROWS);
+    return { cleared: linesCleared, newBoard: trimmed };
   }
 
   function getScoreForClear(linesCleared, level) {
