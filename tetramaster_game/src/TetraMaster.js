@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
+/* COMPACT UI PATCH */
+
 // --- Constants ---
 const ROWS = 20;
 const COLS = 10;
-const BLOCK_SIZE = 28; // px (for CSS inline)
+const BLOCK_SIZE = 20; // px (reduced from 28 for a more compact UI)
 const COLORS = {
   I: "#00adb5", // accent
   O: "#ffd166",
