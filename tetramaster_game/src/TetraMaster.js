@@ -24,6 +24,7 @@ const COLORS = {
 const GAME_STATES = {
   READY: "ready",
   RUNNING: "running",
+  PAUSED: "paused",
   GAME_OVER: "gameover"
 };
 
@@ -168,6 +169,14 @@ function TetraMaster() {
           e.preventDefault();
           hardDrop();
           break;
+        case "Escape":
+        case "p":
+        case "P":
+          // Allow user to pause/resume with Esc or 'P'
+          if (gameStateRef.current === GAME_STATES.RUNNING) {
+            handlePause();
+          }
+          break;
         default: break;
       }
     };
@@ -176,9 +185,25 @@ function TetraMaster() {
     // eslint-disable-next-line
   }, [current, board, gameState]);
 
+  // Pause handler (see also button below)
+  function handlePause() {
+    if (gameState === GAME_STATES.RUNNING) {
+      setGameState(GAME_STATES.PAUSED);
+    }
+  }
+
+  function handleResume() {
+    if (gameState === GAME_STATES.PAUSED) {
+      setGameState(GAME_STATES.RUNNING);
+    }
+  }
+
   // Falling interval
   useEffect(() => {
-    if (gameState !== GAME_STATES.RUNNING) return;
+    if (gameState !== GAME_STATES.RUNNING) {
+      clearInterval(dropIntervalRef.current);
+      return;
+    }
     clearInterval(dropIntervalRef.current);
     dropIntervalRef.current = setInterval(() => {
       if (!tryMove(0, 1)) {
