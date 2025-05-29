@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
-/* COMPACT UI PATCH */
+/* ENHANCED VISIBILITY PATCH */
 
 // --- Constants ---
 const ROWS = 20;
 const COLS = 10;
-const BLOCK_SIZE = 20; // px (reduced from 28 for a more compact UI)
+// Enlarge blocks for better visibility, but keep compact enough for typical 1080p screens
+const BLOCK_SIZE = 30; // px (was 20)
+const SIDEBAR_MIN_WIDTH = 170; // px, increased from 110
+const SIDEBAR_MAX_WIDTH = 220; // px
+
 const COLORS = {
   I: "#00adb5", // accent
   O: "#ffd166",
@@ -440,18 +444,18 @@ function TetraMaster() {
 
   function renderNextBlock() {
     const { key, shape } = next;
-    // Use a smaller block size for preview
-    const PREVIEW_BLOCK = 13;
+    // Make preview block bigger for easier viewing (scaled with play grid size)
+    const PREVIEW_BLOCK = 20; // was 13
     return (
       <div
         style={{
           display: "inline-block",
           background: COLORS.SECONDARY,
-          padding: "7px",
-          borderRadius: "6px",
+          padding: "12px 10px 10px 10px", // more padding
+          borderRadius: "10px",           // slightly larger
         }}
       >
-        <div style={{ color: "#bbb", fontSize: "0.88rem", marginBottom: "3px" }}>
+        <div style={{ color: "#bbb", fontSize: "1rem", marginBottom: "4px" }}>
           Next
         </div>
         <div
@@ -460,8 +464,8 @@ function TetraMaster() {
             gridTemplateRows: `repeat(${shape.length}, ${PREVIEW_BLOCK}px)`,
             gridTemplateColumns: `repeat(${shape[0].length}, ${PREVIEW_BLOCK}px)`,
             background: COLORS.OUTLINE,
-            borderRadius: "3px",
-            boxShadow: "0 1px 4px #191a",
+            borderRadius: "4px",
+            boxShadow: "0 1px 5px #191a",
           }}
         >
           {shape.map((row, r) =>
@@ -472,7 +476,7 @@ function TetraMaster() {
                   width: PREVIEW_BLOCK,
                   height: PREVIEW_BLOCK,
                   background: cell ? COLORS[key] : "transparent",
-                  border: cell ? `1.2px solid #fff5` : "none",
+                  border: cell ? `1.3px solid #fff7` : "none",
                   boxSizing: "border-box"
                 }}
               ></div>
