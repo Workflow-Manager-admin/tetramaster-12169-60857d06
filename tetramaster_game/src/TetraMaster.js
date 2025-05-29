@@ -11,15 +11,19 @@ const SIDEBAR_MIN_WIDTH = 170; // px, increased from 110
 const SIDEBAR_MAX_WIDTH = 220; // px
 
 const COLORS = {
-  I: "#00adb5", // accent
-  O: "#ffd166",
-  T: "#a24ad1",
-  S: "#06d6a0",
-  Z: "#ef476f",
-  J: "#118ab2",
-  L: "#e87a41",
-  EMPTY: "#222831", // board bg (primary)
-  OUTLINE: "#393e46" // secondary
+  I: "#23e682", // green accent main
+  O: "#bcf7e1",
+  T: "#68ffcb",
+  S: "#17de71",
+  Z: "#b6ffe3",
+  J: "#24e681",
+  L: "#3cf6b6",
+  EMPTY: "rgba(18,40,29,0.72)",
+  OUTLINE: "#48FFD1",
+  // For use in components below
+  accent: "#24e681",
+  secondary: "rgba(36,230,129,0.13)",
+  glass: "rgba(34, 230, 129, 0.24)"
 };
 const GAME_STATES = {
   READY: "ready",
@@ -551,123 +555,91 @@ function TetraMaster() {
             marginLeft: "8px",
             minWidth: SIDEBAR_MIN_WIDTH,
             maxWidth: SIDEBAR_MAX_WIDTH,
-            padding: "15px 14px 15px 14px", // more generous padding
-            background: COLORS.secondary || "#393e46",
-            borderRadius: "14px", // slightly larger
-            boxShadow: "0 2px 15px #0007",
-            display: "flex",
-            flexDirection: "column",
-            gap: "24px"
+            padding: "18px 17px 18px 17px",
+            position: "relative",
+            boxSizing: "border-box"
           }}
+          className="glass-panel"
         >
-          <div>{renderNextBlock()}</div>
-          <div style={{ marginTop: "-4px" }}>
-            <div style={{ color: "#fff", marginBottom: "6px", fontSize: "1.12rem", fontWeight: 500 }}>Score</div>
-            <div
-              style={{
-                color: COLORS.accent,
-                fontSize: "1.6rem",
-                letterSpacing: "2px",
-                fontWeight: "600",
-                minHeight: 30
-              }}
-            >
-              {score}
-            </div>
-          </div>
-          <div>
-            <div style={{ color: "#fff", marginBottom: "2px", fontSize: "1.03rem" }}>Level</div>
-            <div style={{ color: "#ffd166", fontWeight: 600, fontSize: "1.28rem" }}>{level}</div>
-          </div>
-          <div>
-            <div>
-              {gameState === GAME_STATES.READY && (
-                <button
-                  className="btn btn-large"
-                  style={{
-                    background: COLORS.accent,
-                    color: "#fff",
-                    marginTop: "12px",
-                    fontSize: "1.11rem",
-                    padding: "14px 0"
-                  }}
-                  onClick={resetGame}
-                >
-                  Start Game
-                </button>
-              )}
-              {gameState === GAME_STATES.RUNNING && (
-                <button
-                  className="btn"
-                  style={{
-                    background: COLORS.secondary,
-                    color: "#eee",
-                    marginTop: "7px",
-                    fontSize: "1.06rem"
-                  }}
-                  onClick={handlePause}
-                >
-                  Pause
-                </button>
-              )}
-              {gameState === GAME_STATES.PAUSED && (
-                <div style={{ marginTop: "15px", textAlign: "center" }}>
-                  <div style={{
-                    color: "#fa0",
-                    fontWeight: 700,
-                    fontSize: "1.15rem",
-                    marginBottom: "9px"
-                  }}>Paused</div>
+          {/* Overlay for Pause/Gameover (keeps sidebar non-shifting/reserves space) */}
+          {(gameState === GAME_STATES.PAUSED || gameState === GAME_STATES.GAME_OVER) && (
+            <div className={gameState === GAME_STATES.PAUSED ? "pause-overlay" : "gameover-overlay"}>
+              {gameState === GAME_STATES.PAUSED ? (
+                <>
+                  <div className="pause-text">PAUSED</div>
                   <button
                     className="btn btn-large"
-                    style={{
-                      background: COLORS.accent,
-                      color: "#fff",
-                      fontSize: "1.11rem",
-                      padding: "14px 0"
-                    }}
+                    style={{}}
                     onClick={handleResume}
                   >
                     Resume
                   </button>
-                </div>
-              )}
-              {gameState === GAME_STATES.GAME_OVER && (
-                <div style={{ marginTop: "15px", textAlign: "center" }}>
-                  <div style={{
-                    color: "#F35",
-                    fontWeight: 700,
-                    fontSize: "1.25rem",
-                    marginBottom: "6px"
-                  }}>Game Over</div>
+                </>
+              ) : (
+                <>
+                  <div className="gameover-text">Game Over</div>
                   <button
                     className="btn btn-large"
-                    style={{
-                      background: COLORS.accent,
-                      color: "#fff",
-                      fontSize: "1.11rem",
-                      padding: "14px 0"
-                    }}
                     onClick={resetGame}
                   >
                     Restart
                   </button>
-                </div>
+                </>
               )}
             </div>
-          </div>
-          <div style={{
-            marginTop: "10px",
-            color: "#bbb",
-            fontSize: "0.95rem",
-            lineHeight: 1.34,
-            textAlign: "left"
-          }}>
-            <div style={{ fontWeight: 500, color: COLORS.accent, marginBottom: 3 }}>Controls:</div>
-            <div>←/→: Move</div>
-            <div>↓ or ␣: Hard/Soft Drop</div>
-            <div>↑: Rotate</div>
-            <div>Esc/P: Pause/Resume</div>
+          )}
+          <div style={{ opacity: (gameState === GAME_STATES.PAUSED || gameState === GAME_STATES.GAME_OVER) ? 0.32 : 1, pointerEvents: (gameState === GAME_STATES.PAUSED || gameState === GAME_STATES.GAME_OVER) ? "none" : "auto", transition: "opacity 0.18s" }}>
+            <div>{renderNextBlock()}</div>
+            <div style={{ marginTop: "-4px" }}>
+              <div style={{ color: "#fff", marginBottom: "7px", fontSize: "1.11rem", fontWeight: 500 }}>Score</div>
+              <div className="glass-score">{score}</div>
+            </div>
+            <div>
+              <div style={{ color: "#fff", marginBottom: "2px", fontSize: "1.02rem" }}>Level</div>
+              <div style={{ color: COLORS.accent, fontWeight: 700, fontSize: "1.20rem" }}>{level}</div>
+            </div>
+            <div style={{ marginTop: "8px" }}>
+              <div>
+                {gameState === GAME_STATES.READY && (
+                  <button
+                    className="btn btn-large"
+                    style={{
+                      marginTop: "9px",
+                      fontSize: "1.11rem"
+                    }}
+                    onClick={resetGame}
+                  >
+                    Start Game
+                  </button>
+                )}
+                {gameState === GAME_STATES.RUNNING && (
+                  <button
+                    className="btn"
+                    tabIndex={0}
+                    style={{
+                      marginTop: "8px",
+                      fontSize: "1.07rem"
+                    }}
+                    onClick={handlePause}
+                  >
+                    Pause
+                  </button>
+                )}
+              </div>
+            </div>
+            <div style={{
+              marginTop: "15px",
+              color: "rgba(189,255,228,0.91)",
+              fontSize: "0.97rem",
+              lineHeight: 1.39,
+              textAlign: "left"
+            }}>
+              <div style={{ fontWeight: 600, color: COLORS.accent, marginBottom: 2, letterSpacing: 0.01 }}>Controls:</div>
+              <div>←/→: Move</div>
+              <div>↓ or ␣: Hard/Soft Drop</div>
+              <div>↑: Rotate</div>
+              <div>Esc/P: Pause/Resume</div>
+            </div>
           </div>
         </div>
       </div>
