@@ -605,10 +605,32 @@ function TetraMaster() {
                     marginTop: "7px",
                     fontSize: "1.06rem"
                   }}
-                  onClick={() => setGameState(GAME_STATES.GAME_OVER)}
+                  onClick={handlePause}
                 >
                   Pause
                 </button>
+              )}
+              {gameState === GAME_STATES.PAUSED && (
+                <div style={{ marginTop: "15px", textAlign: "center" }}>
+                  <div style={{
+                    color: "#fa0",
+                    fontWeight: 700,
+                    fontSize: "1.15rem",
+                    marginBottom: "9px"
+                  }}>Paused</div>
+                  <button
+                    className="btn btn-large"
+                    style={{
+                      background: COLORS.accent,
+                      color: "#fff",
+                      fontSize: "1.11rem",
+                      padding: "14px 0"
+                    }}
+                    onClick={handleResume}
+                  >
+                    Resume
+                  </button>
+                </div>
               )}
               {gameState === GAME_STATES.GAME_OVER && (
                 <div style={{ marginTop: "15px", textAlign: "center" }}>
@@ -645,6 +667,7 @@ function TetraMaster() {
             <div>←/→: Move</div>
             <div>↓ or ␣: Hard/Soft Drop</div>
             <div>↑: Rotate</div>
+            <div>Esc/P: Pause/Resume</div>
           </div>
         </div>
       </div>
