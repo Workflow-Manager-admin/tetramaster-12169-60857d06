@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 /* ENHANCED VISIBILITY PATCH */
 
 // --- Constants ---
-const ROWS = 20;
+const ROWS = 17; // reduced by 3 (was 20)
 const COLS = 10;
 // Enlarge blocks for better visibility, but keep compact enough for typical 1080p screens
 const BLOCK_SIZE = 30; // px (was 20)
@@ -192,6 +192,7 @@ function TetraMaster() {
   // --- Game Logic Functions ---
 
   function createBoard() {
+    // Create a board with the new reduced number of rows
     return Array.from({ length: ROWS }, () =>
       Array(COLS).fill(null)
     );
