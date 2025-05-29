@@ -483,27 +483,16 @@ function TetraMaster() {
   return (
     <div
       style={{
-        minHeight: "100vh",
+        minHeight: "0",
         background: COLORS.EMPTY,
         color: "#fff",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "flex-start",
-        paddingTop: "48px"
+        paddingTop: "12px"
       }}
     >
-      <h1
-        style={{
-          margin: "14px 0 12px 0",
-          fontSize: "2rem",
-          letterSpacing: "1px",
-          color: COLORS.accent,
-          fontWeight: "500"
-        }}
-      >
-        TetraMaster
-      </h1>
       <div
         style={{
           display: "flex",
@@ -511,7 +500,7 @@ function TetraMaster() {
           alignItems: "flex-start",
           justifyContent: "center",
           gap: "40px",
-          marginTop: "16px"
+          marginTop: "0"
         }}
       >
         {/* Play Area */}
